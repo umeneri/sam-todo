@@ -14,6 +14,7 @@ Resources:
             CodeUri: task/
             Handler: app.lambdaHandler
             Runtime: nodejs8.10
+            Policies: AmazonDynamoDBFullAccess
             # Lambda内環境変数
             Environment:
                 Variables:
@@ -31,4 +32,15 @@ Resources:
                         Path: /task
                         Method: put
 
+    TaskDynamoDBTable:
+        Type: AWS::DynamoDB::Table
+        Properties:
+            BillingMode: PAY_PER_REQUEST
+            AttributeDefinitions:
+                - AttributeName: Id
+                  AttributeType: N
+            TableName: Task
+            KeySchema:
+                - AttributeName: Id
+                  KeyType: HASH
 
