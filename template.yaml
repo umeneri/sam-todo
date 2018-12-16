@@ -1,0 +1,34 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: sam-task
+Globals:
+    Function:
+        Timeout: 3
+
+Resources:
+    # lambdaの関数
+    TaskFunction:
+        Type: AWS::Serverless::Function
+        Properties:
+            # 関数内で実行するコードのパス
+            CodeUri: task/
+            Handler: app.lambdaHandler
+            Runtime: nodejs8.10
+            # Lambda内環境変数
+            Environment:
+                Variables:
+                    PARAM1: VALUE
+            Events:
+                # API Gatewayでアクセスする際のパスとメソッド
+                TaskList:
+                    Type: Api
+                    Properties:
+                        Path: /task
+                        Method: get
+                CreateTask:
+                    Type: Api
+                    Properties:
+                        Path: /task
+                        Method: put
+
+
