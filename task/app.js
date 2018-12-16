@@ -1,26 +1,24 @@
+const DynamoDB = require('./dynamodb-client')
+const dbClient = new DynamoDB.DynamoDBClient('Task');
+
 exports.lambdaHandler = async (event, context) => {
   try {
     switch (event.httpMethod) {
       case "GET": {
-        const tasks = [
-          {
-            id: 1,
-            name: 'task1'
-          },
-          {
-            id: 2,
-            name: 'task2'
-          }
-        ];
+        const dbOutput = await dbClient.scan();
+
         return {
           "statusCode": 200,
-          "body": JSON.stringify(tasks)
+          "body": JSON.stringify(dbOutput)
         };
       }
       case "PUT": {
+        const body = JSON.parse(event.body);
+        const dbOutput = await dbClient.put(body);
+
         return {
           "statusCode": 200,
-          "body": JSON.stringify({})
+          "body": JSON.stringify(dbOutput)
         };
       }
       default:

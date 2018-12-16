@@ -17,7 +17,7 @@ Resources:
             # Lambda内環境変数
             Environment:
                 Variables:
-                    PARAM1: VALUE
+                    DYNAMODB_ENDPOINT: ""
             Events:
                 # API Gatewayでアクセスする際のパスとメソッド
                 TaskList:
